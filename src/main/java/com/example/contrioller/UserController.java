@@ -1,9 +1,12 @@
 package com.example.contrioller;
 
-import com.example.dto.requst.UserRequestDto;
+import com.example.dto.request.UserCreateRequestDto;
+import com.example.dto.request.UserUpdateRequestDto;
 import com.example.dto.response.UserResponseDto;
 import com.example.service.user.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,17 +28,19 @@ public class UserController {
         return userService.getById(id);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public UserResponseDto save(@RequestBody UserRequestDto dto) {
+    public UserResponseDto save(@Valid @RequestBody UserCreateRequestDto dto) {
         return userService.save(dto);
     }
 
     @PutMapping("/{id}")
-    public UserResponseDto update(@RequestBody UserRequestDto dto,
+    public UserResponseDto update(@Valid @RequestBody UserUpdateRequestDto dto,
                                   @PathVariable Long id) {
         return userService.update(dto, id);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         userService.delete(id);
