@@ -1,0 +1,17 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=public
+    username: postgres
+    password: postgre
+  flyway:
+    schemas: public
+    baseline-on-migrate: true
+
+logging:
+  level:
+    root: info
+    flyway: debug
