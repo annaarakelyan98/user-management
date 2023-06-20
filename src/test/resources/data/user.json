@@ -1,6 +1,6 @@
 {
-  "name":"user1",
-  "username":"uuseryan24",
-  "age":24,
-  "address":"yerevan"
+  "name": "user1",
+  "age": 25,
+  "address": "city1",
+  "username": "username1"
 }

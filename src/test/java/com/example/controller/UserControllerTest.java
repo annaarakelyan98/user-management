@@ -1,10 +1,13 @@
 package com.example.controller;
 
+import com.example.dto.request.UserCreateRequestDto;
+import com.example.dto.request.UserUpdateRequestDto;
 import com.example.dto.response.UserResponseDto;
 import com.example.service.user.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -14,14 +17,18 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest
-public class UserControllerTest {
+class UserControllerTest {
 
     private final static String URI = "/api/v1/users";
 
@@ -35,7 +42,7 @@ public class UserControllerTest {
     private UserService userService;
 
     @Test
-    public void testGetAll() throws Exception {
+    void testGetAll() throws Exception {
         List<UserResponseDto> dtos = List.of(UserResponseDto.builder()
                 .id(1L)
                 .name("user")
@@ -52,7 +59,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testGetById() throws Exception {
+    void testGetById() throws Exception {
         UserResponseDto dto = UserResponseDto.builder()
                 .id(1L)
                 .name("user")
@@ -68,21 +75,56 @@ public class UserControllerTest {
                 .andExpect(content().json(objectMapper.writeValueAsString(dto)));
     }
 
-    /*
-
-
     @Test
-    public void testCreate() {
+    void testCreate() throws Exception {
+        UserCreateRequestDto dto = UserCreateRequestDto.builder()
+                .name("user")
+                .username("username")
+                .age(23)
+                .address("city")
+                .build();
 
+        when(userService.save(dto)).thenReturn(UserResponseDto.builder()
+                .id(1L)
+                .name("user")
+                .username("username")
+                .age(23)
+                .address("city")
+                .build());
+
+        mockMvc.perform(post(URI).contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isCreated());
     }
 
     @Test
-    public void testUpdate() {
+    void testUpdate() throws Exception {
+        UserUpdateRequestDto dto = UserUpdateRequestDto.builder()
+                .name("user")
+                .age(23)
+                .address("city")
+                .build();
 
+        given(userService.update(dto, 1L)).willReturn(UserResponseDto.builder()
+                .id(1L)
+                .name("user")
+                .username("username")
+                .age(23)
+                .address("city")
+                .build());
+
+        mockMvc.perform(put(URI + "/1").contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isOk());
+
+        verify(userService).update(any(), anyLong());
     }
 
     @Test
-    public void testDelete() {
+    void testDeleteById() throws Exception {
+        Mockito.doNothing().when(userService).delete(1L);
 
-    }*/
+        mockMvc.perform(delete(URI + "/1").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
 }

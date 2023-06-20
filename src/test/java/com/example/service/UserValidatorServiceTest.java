@@ -13,13 +13,13 @@ import java.util.Optional;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class UserValidatorServiceTest {
+class UserValidatorServiceTest {
 
     private final UserRepository userRepository = mock(UserRepository.class);
     private final UserValidator userValidator = new UserValidator(userRepository);
 
     @Test
-    public void testValidateUser() {
+    void testValidateUser() {
         UserCreateRequestDto userCreateRequestDto = UserCreateRequestDto.builder()
                 .name("user")
                 .username("username1")

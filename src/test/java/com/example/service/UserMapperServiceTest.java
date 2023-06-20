@@ -9,12 +9,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class UserMapperServiceTest {
+class UserMapperServiceTest {
 
     private final UserMapperService userMapperService = new UserMapperService();
 
     @Test
-    public void testMapEntityToDto() {
+    void testMapEntityToDto() {
         UserEntity userEntity = UserEntity.builder()
                 .id(1L)
                 .name("user")
@@ -33,7 +33,7 @@ public class UserMapperServiceTest {
     }
 
     @Test
-    public void testCreateDtoToEntity() {
+    void testCreateDtoToEntity() {
         UserCreateRequestDto userCreateRequestDto = UserCreateRequestDto.builder()
                 .name("user1")
                 .username("username12.3")
@@ -50,7 +50,7 @@ public class UserMapperServiceTest {
     }
 
     @Test
-    public void testUpdateDtoToEntity() {
+    void testUpdateDtoToEntity() {
         UserEntity userEntity = UserEntity.builder()
                 .name("user2")
                 .age(15)

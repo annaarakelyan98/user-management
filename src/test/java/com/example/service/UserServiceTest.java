@@ -19,7 +19,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class UserServiceTest {
+class UserServiceTest {
 
     private final UserRepository userRepository = mock(UserRepository.class);
     private final UserMapperService userMapperService = new UserMapperService();
@@ -30,7 +30,7 @@ public class UserServiceTest {
     );
 
     @Test
-    public void testGetAll() {
+    void testGetAll() {
         List<UserEntity> userEntities = List.of(UserEntity.builder()
                 .id(1L)
                 .name("user1")
@@ -56,7 +56,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetAllWhenEmpty() {
+    void testGetAllWhenEmpty() {
         when(userRepository.findAll()).thenReturn(List.of());
 
         List<UserResponseDto> dtos = userService.getAll();
@@ -66,7 +66,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetById() {
+    void testGetById() {
         Long id = 1L;
 
         UserEntity mockUser = UserEntity.builder()
@@ -85,7 +85,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetByIdThrowException() {
+    void testGetByIdThrowException() {
         Long id = 1L;
 
         when(userRepository.findById(id)).thenReturn(Optional.empty());
@@ -94,7 +94,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testSave() {
+    void testSave() {
         UserCreateRequestDto dto = UserCreateRequestDto.builder()
                 .name("user")
                 .username("username1")
@@ -113,7 +113,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testUpdate() {
+    void testUpdate() {
         UserUpdateRequestDto dto = UserUpdateRequestDto.builder()
                 .name("user")
                 .age(26)
@@ -143,7 +143,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testUpdateIdNotFound() {
+    void testUpdateIdNotFound() {
         UserUpdateRequestDto dto = UserUpdateRequestDto.builder()
                 .name("user")
                 .age(26)
@@ -156,7 +156,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testDeleteById() {
+    void testDeleteById() {
         Long id = 1L;
 
         UserEntity mockUser = UserEntity.builder()
@@ -172,7 +172,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testDeleteByIdWhenNotFound() {
+    void testDeleteByIdWhenNotFound() {
         Long id = 1L;
 
         when(userRepository.findById(id)).thenReturn(Optional.empty());
